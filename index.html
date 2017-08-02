@@ -1,0 +1,57 @@
+<!--  Hangman                           -->
+<!--  Author: Wallis Chau               -->
+<!--  Description: Hangman game         -->
+<!--  Date: 8/1/17 -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hangman</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+<body>
+	<section class="mainArea">
+		<header class="mainhead">
+			<h1 class="heading">
+				Hangman
+			</h1>
+		</header>
+		<div class="playarea">
+			<article class="playleft">
+				<img src="http://via.placeholder.com/200x200" alt="left pic">	
+			</article>
+			<article class="playright">
+				<div class="infoarea">
+					<p>Press any key to start</p>
+				</div>	
+				<div class="playresultarea">
+					Wins:
+					<label class="wincount"> 0 </label>
+					<br>
+					Current word:
+					<br>
+					<div class="word">
+						<label class="letter" id="compword">- - - - -</label>
+					</div>
+				</div>
+				<div class="guessinfoarea">
+					<div class="guessremain">
+						<!--remaining guess  -->
+						guess remaining <br>
+						<label id="remainlabel"> 12 </label>	
+					</div>
+					<div class="guessedletter">
+					<!-- guessed list -->
+						guessed letters
+						<label class="guessedlabel"></label>
+					</div>
+				</div>
+			</article>
+		</div>	
+	</section>	
+	<script type="text/javascript" src="assets/javascript/games.js">
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+/*Hangman -->*/
+/*Author: Wallis Chau-->*/
+/*Description: Hangman game--*/
+/*Date: 8/1/17 -->*/
+
+.mainArea {
+	width: 600px;
+	background: lightgrey;
+	margin: 50px 200px;
+}
+.mainhead {
+	color: green;
+	background: yellow;
+	height: 150px;
+}
+
+.heading {
+	text-align: center;
+	font-size: 80pt;
+}
+
+.playleft {
+	float: left;
+	width: 300px;
+	height: 300px;
+}
+
+.playright {
+	float: left;
+	width: 300px;
+	text-align: center;
+}
+
+.infoarea {
+	height: 50px;
+	padding: 10px;
+}
+
+.playresultarea {
+	height: 80px;
+}
+
+.guessinfoarea {
+	height: 200px;
+
+}
+
+.guessremain {
+	height: 80px;
+}
+
+.guessedletter {
+	height: 80px;
+}
