@@ -1,7 +1,7 @@
-/*Hangman -->*/
-/*Author: Wallis Chau-->*/
-/*Description: Hangman game--*/
-/*Date: 8/1/17 -->*/
+/*Hangman                      */    
+/*Author: Wallis Chau          */    
+/*Description: Hangman game    */    
+/*Date: 8/1/17                 */
 
 .mainArea {
 	width: 600px;
@@ -19,6 +19,9 @@
 	font-size: 80pt;
 }
 
+#HeadMsg {
+	font-size: 20pt;
+}
 .playleft {
 	float: left;
 	width: 300px;
@@ -29,6 +32,7 @@
 	float: left;
 	width: 300px;
 	text-align: center;
+	font-size: 15pt;
 }
 
 .infoarea {
