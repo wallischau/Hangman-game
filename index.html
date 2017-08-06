@@ -19,7 +19,10 @@
 		</header>
 		<div class="playarea">
 			<article class="playleft">
-				<img src="http://via.placeholder.com/200x200" alt="left pic">	
+				<img id="hangmanlogo" src="assets/images/hangman.jpg" alt="left pic">	
+				<div id="cat">Category:
+					<span id="catcontent"></span>
+				</div>
 			</article>
 			<article class="playright">
 				<div class="infoarea">
@@ -41,15 +44,21 @@
 						Guesses remain <br>
 						<label id="remainlabel">  </label>	
 					</div>
+					<div id="winmsg" class="visible"></div>
 					<div class="guessedletter">
 					<!-- guessed list -->
 						Guessed letters <br>
-						<label id="guessedlabel"></label>
+						<label id="guessedlabel">
+						</label>
 					</div>
 				</div>
 			</article>
 		</div>	
 	</section>	
+	<div>
+		<!-- abc -->
+		<!-- <span id="here">def</span> -->
+	</div>
 	<script type="text/javascript" src="assets/javascript/games.js">
 
 	</script>

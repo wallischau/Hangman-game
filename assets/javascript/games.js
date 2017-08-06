@@ -6,7 +6,8 @@
 console.log('start');
 const GUESS_COUNT = 12;
 var targetWord = [];
-var wordList = ['apple', 'pear', 'banana', 'cherry', 'grapes'];
+var fruitwordList = ['apple', 'pear', 'banana', 'cherry', 'grapes'];
+var category = ['fruit'];
 var compCharArray = [];
 var compCharDisplay = [];
 var compWordIndex;
@@ -15,15 +16,17 @@ var compCharObjects = [];
 var guessRemaining = GUESS_COUNT;
 var guessedLetters = [];
 var winCount = 0;
-var introMsg = "Press any key to start";
-var ingameMsg = "Guess a letter";
+const INTRO_MSG = "Press any key to start";
+const IN_GAME_MSG = "Guess a letter";
+const WIN_MSG = "You won";
+const LOSE_MSG = "you lost";
 var started = false;
 
 /* random pick a index from the list and return it  */
 /* parameter: list of words                         */
 /*  return: index                                   */
-function generateCompWord(wordlist) {
-	return (Math.floor(Math.random() * wordlist.length));
+function generateCompWord(wordList) {
+	return (Math.floor(Math.random() * wordList.length));
 }
 
 /* split a word into char and store in an array */
@@ -50,6 +53,7 @@ function addCharsToList(charArray, objList) {
 /* parameter: key - key to be checked                  */
 /*            list - array to be checked against       */
 /* return: array of the slots that matches the char    */
+/*         slot is empty if no match found             */
 function checkUserKey(key, list) {
 	var matchedSlot =[]; // to store indice of matched letter
 	var index = -1;
@@ -88,6 +92,11 @@ function updateWordInDisplay(list, sourcearray, destarray) {
 //	console.log('dest' + destarray);
 }
 
+/* display category                              */
+function displayCategory(cat) {
+	var categoryItem = document.getElementById("catcontent");
+	categoryItem.innerHTML = category[cat];
+}
 /* update guess remaining count                  */
 /* description: if new game, reset count         */
 /* parameter: newgame - bool
@@ -105,7 +114,13 @@ function updateGuessRemaining(newgame) {
 /* return: none                                 */
 function displayGuessRemaining() {
 	var remainLabel = document.getElementById("remainlabel");
-	remainLabel.innerHTML = guessRemaining;
+		var temp = guessRemaining;
+	if (guessRemaining < 3) {
+		temp = `<span class='red'> ${temp} </span>`;
+
+	}
+//	remainLabel.innerHTML = guessRemaining;
+	remainLabel.innerHTML = temp;
 }
 
 /* display win count                            */
@@ -116,30 +131,39 @@ function displayWinCount() {
 } 
 
 /* display guessed letter list                  */
+/* parameter: list - list to be displayed       */
 /* return: none                                 */
-function displayGuessedLetters() {
+function displayGuessedLetters(list) {
 	var guessedLabel = document.getElementById("guessedlabel");
-	console.log(guessedLabel);
-	guessedLabel.innerHTML = guessedLetters.join("\t");	
+//	console.log(guessedLabel);
+	guessedLabel.innerHTML = list.join("\t");	
 }
 
 /* update guessed letter list                      */
 /* parameter : char - char to add                  */
+/*             newgame - bool                      */
 /*             list - list to be updated           */
+/*             matched - char is a matched letter  */
 /* description: push char if it is not in the list;*/
 /*              update remaining, display guessed letters */
-/* TODO: bold matched letter */
-function updateGuessedLetters(newgame, char, list) {
+function updateGuessedLetters(newgame, char, list, matched) {
 	if (newgame) {
+		//empty the list
 		list.splice(0, list.length);	
 	}
 	//add char if not in the list
-	else if (list.indexOf(char) === -1) {
-		list.push(char);
-		list.sort();
-		updateGuessRemaining(false);
-	}
-	displayGuessedLetters();
+	else {
+		//if this char is a match
+		if (matched) {
+			char = `<span class='orange'> ${char} </span>`;
+		}
+		if (list.indexOf(char) === -1) {
+			list.push(char);
+			list.sort();
+			updateGuessRemaining(false);
+		}
+	}//else 
+	displayGuessedLetters(list);
 }
 
 /* check result                                          */
@@ -164,10 +188,34 @@ function checkWinLose(list) {
 function updateHeadingMsg(isStarted) {
 	var msg = document.getElementById("HeadMsg");
 	if (isStarted) {
-		msg.innerHTML = ingameMsg;
+		msg.innerHTML = IN_GAME_MSG;
 	}
 	else {
-		msg.innerHTML = introMsg;
+		msg.innerHTML = INTRO_MSG;
+	}
+}
+
+/* dislay winning message                     */
+/* description: hide or show winning message  */
+/* parameter: win- bool                       */
+/*            vis - bool, visible             */
+function displayWinMsg(vis, win) {
+	var msg = document.getElementById("winmsg");
+	if (win) {
+
+		msg.innerHTML = WIN_MSG;
+	}
+	else
+	{
+		msg.innerHTML = LOSE_MSG;
+	}
+	if (vis) {
+		msg.setAttribute("class", "visible");
+	}
+	else
+	{
+		msg.setAttribute("class", "invisible");
+
 	}
 }
 
@@ -176,7 +224,19 @@ function updateHeadingMsg(isStarted) {
 function resetGame() {
 	started = true;
 	updateHeadingMsg(started);
-	compWordSetup(wordList, compWordIndex, compCharArray, compCharDisplay, guessedLetters);
+	compCharArray = compWordSetup( compWordIndex,  fruitwordList,compCharDisplay, guessedLetters);
+}
+
+/* validate user key                            */
+/* description: check for alphabet only,        */
+/*              excludes ctrl, shift, alt keys  */
+/* return: bool                                 */
+function validateUserKey(char) {
+	//excludes control, alt or shift keys that have > 1 char 
+	if (char.length != 1) {
+		return false;
+	}
+	return(/^[a-zA-Z]/.test(char));
 }
 
 /* get user input key                            */
@@ -195,50 +255,65 @@ function getUserKey() {
 			resetGame();
 		}
 		else {
+			userKey = userKey.toLowerCase();
+			//validate user input: char only
+			if(!validateUserKey(userKey)) {
+				return;
+			}
 			//check if user input is in comp word
-			matchedList = checkUserKey(userKey, compCharArray, compCharDisplay);
+			matchedList = checkUserKey(userKey, compCharArray );
 			//update word to display
 			updateWordInDisplay(matchedList, compCharArray, compCharDisplay);
 			displayCurrentWord(compCharDisplay);
-			updateGuessedLetters(false, userKey, guessedLetters);
+			var matched = matchedList.length;
+			updateGuessedLetters(false, userKey, guessedLetters, matched);
 			switch (checkWinLose(compCharDisplay)) {
 				case 1: {
 					winCount++;
 //					alert("you won");
 					displayWinCount();
-//					//break;  //no break so it could run the next block
+					displayWinMsg(true, true);
+					started = false;
+					updateHeadingMsg(started);
+					break;  
 				}
 				case -1: {
 //					alert("you lost");
+					displayWinMsg(true, false);
 					started = false;
 					updateHeadingMsg(started);
 					break;
 				}
+				//other case, continue the game
 			}//switch
 		}
 	} //function(event)
 }
 
-/* comp word setup */
-function compWordSetup(wordList, indexList, charArray, charDisplay, guessedArray) {
+/* comp word setup                                   */
+/* description: initialize all fields                */
+function compWordSetup(indexList, fruitwordList, charDisplay, guessedArray) {
+
+var tempArray;
 
 //generate a random word
-indexList = generateCompWord(wordList);
-//store each letter in array
-var tempArray = splitWordToChar(wordList[indexList]); 
-//clear array
-charArray.splice(0, charArray.length);
-//copy data into charArray.  Cannot do charArray = tempArray
-//because it just moves reference to other memory, not changing
-//original
-for (var i=0; i<tempArray.length; i++) {
-	charArray.push(tempArray[i]);	
-}
+indexList = generateCompWord(fruitwordList);
 
-console.log(charArray);
+//store each letter in array
+tempArray = splitWordToChar(fruitwordList[indexList]); 
+//clear array
+//charArray.splice(0, charArray.length);
+
+//console.log(charArray);
+console.log(tempArray);
+
+//display category
+displayCategory(0);
+
 
 //fill array with '_'
-charDisplay.length = charArray.length;
+//charDisplay.length = charArray.length;
+charDisplay.length = tempArray.length;
 charDisplay.fill('_');
 console.log(charDisplay);
 
@@ -247,15 +322,21 @@ displayCurrentWord(charDisplay);
 //display guess count
 //displayGuessRemaining();
 updateGuessRemaining(true);
+displayWinMsg(false);
 updateGuessedLetters(true, 0, guessedArray);
 
+return(tempArray);
 }
 
 /* ------- word setup ------------------- */
-compWordSetup(wordList, compWordIndex, compCharArray, compCharDisplay, guessedLetters);
-
+compCharArray = compWordSetup(compWordIndex, fruitwordList, compCharDisplay, guessedLetters);
+//console.log("here" + compCharArray);
 /* ------- take user input------------------- */
 getUserKey();
 
-
-
+/*
+var btn = document.createElement("span");
+var t = document.createTextNode("me");
+btn.appendChild(t);
+document.body.appendChild(btn);
+*/

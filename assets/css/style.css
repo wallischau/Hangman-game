@@ -3,6 +3,9 @@
 /*Description: Hangman game    */    
 /*Date: 8/1/17                 */
 
+body {
+	/*background-image: url("../images/fruit_border.jpg");*/
+}
 .mainArea {
 	width: 600px;
 	background: lightgrey;
@@ -28,16 +31,31 @@
 	height: 300px;
 }
 
+#hangmanlogo {
+	width: 400px;
+	height: 200px;
+}
+
+#cat {
+	font-size: 20pt;
+	color: purple;
+	border: 1px solid purple;
+	border-radius: 5px;
+}
+
 .playright {
 	float: left;
 	width: 300px;
 	text-align: center;
-	font-size: 15pt;
+	font-size: 18pt;
 }
 
 .infoarea {
-	height: 50px;
+	height: 40px;
 	padding: 10px;
+	margin: 5px;
+	border: 4px solid orange;
+
 }
 
 .playresultarea {
@@ -50,9 +68,63 @@
 }
 
 .guessremain {
+	height: 50px;
+}
+
+#winmsg {
+	height: 30px;
+	border: 3px solid yellow;
+}
+
+.visible {
+	visibility: visible;
+}
+
+.invisible {
+	visibility: hidden;
+}
+.guessedletter {
 	height: 80px;
 }
 
-.guessedletter {
-	height: 80px;
+.orange {
+	font-weight: bold;
+	color: orange;
+}
+.red {
+	color: red;
+}
+
+@media screen and (max-width: 790px) {
+	.playleft {
+		width: 200px;
+	}
+	.playright {
+		width: 250px;
+	}
+	.mainArea {
+		margin-left: 100px;
+		width: 80%;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	.mainArea {
+		margin-left: 50px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		width: 80%;
+	}
+	.mainhead {
+		height: 100px;
+	}
+	.heading {
+		font-size: 60pt;
+	}
+	.playright {
+		clear: both;
+	}
+	.playleft {
+		height: 230px;
+	}
 }
