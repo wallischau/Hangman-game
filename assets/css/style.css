@@ -4,7 +4,7 @@
 /*Date: 8/1/17                 */
 
 body {
-	/*background-image: url("../images/fruit_border.jpg");*/
+	/*background-image: url("../images/fruit.jpg");*/
 }
 .mainArea {
 	width: 600px;
@@ -15,6 +15,7 @@ body {
 	color: green;
 	background: yellow;
 	height: 150px;
+	position: relative;
 }
 
 .heading {
@@ -24,6 +25,13 @@ body {
 
 #HeadMsg {
 	font-size: 20pt;
+}
+
+#fruitborder {
+	position: absolute;
+	top: 90px;	
+	left: 330px;
+	width: 30%;
 }
 .playleft {
 	float: left;
@@ -127,4 +135,8 @@ body {
 	.playleft {
 		height: 230px;
 	}
-}
+	#fruitborder {
+		top: 120px;	
+		left: 220px;
+		width: 40%;
+}}

@@ -36,17 +36,6 @@ function splitWordToChar(word) {
 	return (word.split(""));
 }
 
-/* add object to array list.  Object includes a letter and a '_' */
-/* return: update object list                                    */
-function addCharsToList(charArray, objList) {
-//	console.log(charArray.length);
-	for (var i=0; i<charArray.length; i++) {
-		var temp = [' ', '_'];
-		temp[0] = charArray[i];
-		objList.push(temp);
-//		console.log(objList);
-	}
-}
 
 /* check if a char is in the array                     */
 /* description: search the list for all matched char   */
@@ -88,8 +77,6 @@ function updateWordInDisplay(list, sourcearray, destarray) {
 	for (var i=0; i<list.length; i++) {
 		destarray[list[i]] = sourcearray[list[i]];
 	}
-//	console.log('list'+list);
-//	console.log('dest' + destarray);
 }
 
 /* display category                              */
@@ -219,6 +206,17 @@ function displayWinMsg(vis, win) {
 	}
 }
 
+function updateLogo(win) {
+	var logo = document.getElementById("hangmanlogo");
+	if (win) {
+		logo.setAttribute("src", "assets/images/hangman2.jpg");
+	}
+	else
+	{
+		logo.setAttribute("src", "assets/images/hangman.jpg");
+	}
+}
+
 /* reset status, count, list and heading        */
 /* return: none                                 */
 function resetGame() {
@@ -248,7 +246,7 @@ function getUserKey() {
 	var matchedList;  //list of indice that match
 	document.onkeyup = function(event) {
 		userKey = event.key;
-		console.log(userKey);
+//		console.log(userKey);
 	
 		//if this is the first key, start the round
 		if (!started) {
@@ -275,6 +273,7 @@ function getUserKey() {
 					displayWinMsg(true, true);
 					started = false;
 					updateHeadingMsg(started);
+					updateLogo(true);
 					break;  
 				}
 				case -1: {
@@ -315,7 +314,7 @@ displayCategory(0);
 //charDisplay.length = charArray.length;
 charDisplay.length = tempArray.length;
 charDisplay.fill('_');
-console.log(charDisplay);
+//console.log(charDisplay);
 
 //display the word being guess
 displayCurrentWord(charDisplay);
@@ -323,6 +322,7 @@ displayCurrentWord(charDisplay);
 //displayGuessRemaining();
 updateGuessRemaining(true);
 displayWinMsg(false);
+updateLogo(false);
 updateGuessedLetters(true, 0, guessedArray);
 
 return(tempArray);
@@ -333,10 +333,3 @@ compCharArray = compWordSetup(compWordIndex, fruitwordList, compCharDisplay, gue
 //console.log("here" + compCharArray);
 /* ------- take user input------------------- */
 getUserKey();
-
-/*
-var btn = document.createElement("span");
-var t = document.createTextNode("me");
-btn.appendChild(t);
-document.body.appendChild(btn);
-*/
