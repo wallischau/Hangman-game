@@ -6,7 +6,7 @@
 console.log('start');
 const GUESS_COUNT = 12;
 var targetWord = [];
-var fruitwordList = ['apple', 'pear', 'banana', 'cherry', 'grapes'];
+var fruitwordList = ['apple', 'pear', 'banana', 'cherry', 'grapes','strawberry','watermelon','orange','pineapple','papaya', 'jackfruit', 'avocado', 'kiwi', 'grapefruit'];
 var category = ['fruit'];
 var compCharArray = [];
 var compCharDisplay = [];
