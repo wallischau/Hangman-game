@@ -88,12 +88,14 @@ function displayCategory(cat) {
 /* description: if new game, reset count         */
 /* parameter: newgame - bool
 /* return: none                                  */
-function updateGuessRemaining(newgame) {
+function updateGuessRemaining(newgame, matched) {
 	if (newgame) {
 		guessRemaining = GUESS_COUNT;
 	}
 	else
-		guessRemaining--;
+		if (!matched) {
+			guessRemaining--;
+		}
 	displayGuessRemaining();
 }
 
@@ -147,7 +149,7 @@ function updateGuessedLetters(newgame, char, list, matched) {
 		if (list.indexOf(char) === -1) {
 			list.push(char);
 			list.sort();
-			updateGuessRemaining(false);
+			updateGuessRemaining(false, matched);
 		}
 	}//else 
 	displayGuessedLetters(list);
@@ -320,7 +322,7 @@ charDisplay.fill('_');
 displayCurrentWord(charDisplay);
 //display guess count
 //displayGuessRemaining();
-updateGuessRemaining(true);
+updateGuessRemaining(true, 1);
 displayWinMsg(false);
 updateLogo(false);
 updateGuessedLetters(true, 0, guessedArray);
